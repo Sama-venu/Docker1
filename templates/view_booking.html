@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Booking Details</h2>
+    <div style="margin: 20px 0;">
+        <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+        <p><strong>Name:</strong> {{ booking.customer_name }}</p>
+        <p><strong>Email:</strong> {{ booking.customer_email }}</p>
+        <p><strong>Phone:</strong> {{ booking.customer_phone }}</p>
+        <p><strong>Guests:</strong> {{ booking.guests }}</p>
+        <p><strong>Date & Time:</strong> {{ booking.booking_date.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p><strong>Status:</strong> <span class="status status-{{ booking.status }}">{{ booking.status|upper }}</span></p>
+        {% if booking.special_requests %}
+        <p><strong>Special Requests:</strong> {{ booking.special_requests }}</p>
+        {% endif %}
+        <p><strong>Created:</strong> {{ booking.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+    
+    {% if booking.status == 'confirmed' %}
+    <a href="/cancel/{{ booking.id }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</a>
+    {% endif %}
+    
+    <a href="/" class="btn btn-primary">Back to Home</a>
+</div>
+{% endblock %}

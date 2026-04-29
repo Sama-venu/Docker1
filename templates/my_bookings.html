@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>My Bookings</h2>
+    {% if bookings %}
+        {% for booking in bookings %}
+        <div class="booking-card">
+            <h3>Booking #{{ booking.id }}</h3>
+            <p><strong>Date:</strong> {{ booking.booking_date.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p><strong>Guests:</strong> {{ booking.guests }}</p>
+            <p><strong>Status:</strong> <span class="status status-{{ booking.status }}">{{ booking.status|upper }}</span></p>
+            <a href="/booking/{{ booking.id }}" class="btn btn-primary" style="margin-top: 10px;">View Details</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No bookings found. <a href="/book">Book a table now!</a></p>
+    {% endif %}
+</div>
+{% endblock %}

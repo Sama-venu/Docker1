@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Book a Table</h2>
+    <form method="POST" action="/book" id="bookingForm">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.customer_name.label }}
+            {{ form.customer_name }}
+            {% if form.customer_name.errors %}
+                {% for error in form.customer_name.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.customer_email.label }}
+            {{ form.customer_email }}
+            {% if form.customer_email.errors %}
+                {% for error in form.customer_email.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.customer_phone.label }}
+            {{ form.customer_phone }}
+            {% if form.customer_phone.errors %}
+                {% for error in form.customer_phone.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.guests.label }}
+            {{ form.guests }}
+            {% if form.guests.errors %}
+                {% for error in form.guests.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.booking_date.label }}
+            <input type="datetime-local" name="booking_date" required id="booking_date">
+            {% if form.booking_date.errors %}
+                {% for error in form.booking_date.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.special_requests.label }}
+            {{ form.special_requests(rows=3) }}
+        </div>
+        
+        <div id="slotAvailability" style="margin-bottom: 20px;"></div>
+        
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+
+<script>
+    const dateInput = document.getElementById('booking_date');
+    const guestsInput = document.querySelector('input[name="guests"]');
+    const availabilityDiv = document.getElementById('slotAvailability');
+    
+    function checkAvailability() {
+        const date = dateInput.value;
+        const guests = guestsInput.value;
+        
+        if (date && guests) {
+            fetch(`/api/available-slots?date=${date.split('T')[0]}&guests=${guests}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.slots) {
+                        const availableSlots = data.slots.filter(slot => slot.available);
+                        if (availableSlots.length > 0) {
+                            availabilityDiv.innerHTML = '<div class="alert alert-success">✓ Tables available for your selected date!</div>';
+                        } else {
+                            availabilityDiv.innerHTML = '<div class="alert alert-error">✗ No tables available for this date. Please try another date.</div>';
+                        }
+                    }
+                });
+        }
+    }
+    
+    dateInput.addEventListener('change', checkAvailability);
+    guestsInput.addEventListener('change', checkAvailability);
+</script>
+{% endblock %}

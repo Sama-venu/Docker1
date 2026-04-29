@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Admin Dashboard</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+        <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; text-align: center;">
+            <h3>Total Bookings</h3>
+            <p style="font-size: 2rem; font-weight: bold;">{{ total_bookings }}</p>
+        </div>
+        <div style="background: #c8e6c9; padding: 20px; border-radius: 10px; text-align: center;">
+            <h3>Confirmed</h3>
+            <p style="font-size: 2rem; font-weight: bold;">{{ confirmed_bookings }}</p>
+        </div>
+        <div style="background: #ffccbc; padding: 20px; border-radius: 10px; text-align: center;">
+            <h3>Cancelled</h3>
+            <p style="font-size: 2rem; font-weight: bold;">{{ cancelled_bookings }}</p>
+        </div>
+        <div style="background: #d1c4e9; padding: 20px; border-radius: 10px; text-align: center;">
+            <h3>Today's Bookings</h3>
+            <p style="font-size: 2rem; font-weight: bold;">{{ today_bookings }}</p>
+        </div>
+    </div>
+    
+    <h3>Upcoming Bookings</h3>
+    {% if upcoming_bookings %}
+        {% for booking in upcoming_bookings %}
+        <div class="booking-card">
+            <p><strong>Booking #{{ booking.id }}</strong> - {{ booking.customer_name }}</p>
+            <p>{{ booking.booking_date.strftime('%Y-%m-%d %H:%M') }} | {{ booking.guests }} guests | {{ booking.customer_phone }}</p>
+            <a href="/booking/{{ booking.id }}" class="btn btn-primary" style="margin-top: 5px;">View</a>
+            <a href="/admin/booking/{{ booking.id }}/complete" class="btn btn-primary" style="margin-top: 5px;">Mark Completed</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No upcoming bookings.</p>
+    {% endif %}
+</div>
+{% endblock %}

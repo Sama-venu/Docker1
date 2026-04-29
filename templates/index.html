@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <h1>Welcome to Our Restaurant</h1>
+    <p style="font-size: 1.2rem; margin: 20px 0;">Experience the finest dining with us. Book your table now!</p>
+    <a href="/book" class="btn btn-primary" style="background: white; color: #667eea;">Book a Table</a>
+</div>
+
+<div class="card">
+    <h2>Why Choose Us?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+        <div>
+            <h3>🍽️ Exquisite Cuisine</h3>
+            <p>Prepared by world-class chefs using the finest ingredients</p>
+        </div>
+        <div>
+            <h3>✨ Ambiance</h3>
+            <p>Elegant setting perfect for any occasion</p>
+        </div>
+        <div>
+            <h3>👨‍🍳 Excellent Service</h3>
+            <p>Attentive staff ensuring memorable experience</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Opening Hours</h2>
+    <p><strong>Monday - Sunday:</strong> 10:00 AM - 10:00 PM</p>
+    <p><strong>Last seating:</strong> 9:00 PM</p>
+    <p><strong>Booking required:</strong> At least 1 hour in advance</p>
+</div>
+{% endblock %}
